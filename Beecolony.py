@@ -77,7 +77,6 @@ def main():
 
     e = 0
 
-    # init bees
     for i in range(n_bee):
         bees.append(Bee())
 
@@ -98,11 +97,12 @@ def main():
 
         print ("Bees are making decision to be recruiter or follower")
         Cmax = max(bees, key=lambda b: b.distance).distance
+        X = [n.idn for n in best_bee.choosen_nodes]
         Cmin = min(bees, key=lambda b: b.distance).distance
 
         recruiters = []
         for bee in bees:
-            Ob = (Cmax - bee.distance) / (Cmax - Cmin)  # range [0,1]
+            Ob = (Cmax - bee.distance) / (Cmax - Cmin) 
             probs = np.e ** (-(1 - Ob) / (len(bee.choosen_nodes) * 0.01))
             rndm = r.uniform(0, 1)
             print ("ob and probs", Ob, probs)
@@ -111,7 +111,12 @@ def main():
                 recruiters.append(bee)
             else:
                 bee.change_role(False)
-
+                        
+        k, y = zip(*X)
+        print("printing k")
+        print(k,y)
+        #plt.plot(k, y)
+        #plt.show()
         print ("number of recruiter", len(recruiters))
         print ("Bees are choosing their recruiter")
         divider = sum([(Cmax - bee.distance) / (Cmax - Cmin) for bee in recruiters])
